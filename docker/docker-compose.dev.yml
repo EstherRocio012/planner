@@ -1,0 +1,92 @@
+services:
+
+  planner_web:
+    build:
+      context: /workspace
+      dockerfile: /workspace/planner/docker/Dockerfile.planner.dev
+    container_name: planner_web
+    volumes:
+      - ${SPLENT_HOST_PROJECT_DIR}:/workspace
+      # Features are pip-installed into the container each time it is
+      # created, and product:down removes it. Keeping pip's cache in a volume
+      # means a restart installs them from local wheels instead of
+      # downloading every dependency again.
+      - planner_pip_cache:/root/.cache/pip
+    env_file:
+      - /workspace/planner/docker/.env
+    environment:
+      # Wire the e2e layer to the grid below. The target URL is resolved by
+      # the browser, so it must name a host the browser container can reach.
+      SELENIUM_GRID_URL: http://planner_selenium_hub:4444
+      SELENIUM_TARGET_URL: http://planner_web:5000
+    ports:
+      - "5161:5000"
+      # Locust web interface, served from inside this container by
+      # 'splent locust'.
+      - "8250:8089"
+    depends_on:
+      planner_db:
+        condition: service_healthy
+    networks:
+      - splent_network
+    command: [ "tail", "-f", "/dev/null" ]
+
+  planner_db:
+    image: mariadb:11.4
+    container_name: planner_db
+    env_file:
+      - /workspace/planner/docker/.env
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "33221:3306"
+    volumes:
+      - planner_db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mariadb -u$${MARIADB_USER} -p$${MARIADB_PASSWORD} -e 'SELECT 1'"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      start_period: 10s
+    networks:
+      - splent_network
+
+  planner_selenium_hub:
+    image: selenium/hub:latest
+    container_name: planner_selenium_hub
+    networks:
+      - splent_network
+
+  planner_selenium_chrome:
+    image: selenium/node-chrome:latest
+    container_name: planner_selenium_chrome
+    shm_size: 2gb
+    environment:
+      SE_EVENT_BUS_HOST: planner_selenium_hub
+      SE_EVENT_BUS_PUBLISH_PORT: 4442
+      SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
+    depends_on:
+      - planner_selenium_hub
+    networks:
+      - splent_network
+
+  planner_selenium_firefox:
+    image: selenium/node-firefox:latest
+    container_name: planner_selenium_firefox
+    shm_size: 2gb
+    environment:
+      SE_EVENT_BUS_HOST: planner_selenium_hub
+      SE_EVENT_BUS_PUBLISH_PORT: 4442
+      SE_EVENT_BUS_SUBSCRIBE_PORT: 4443
+    depends_on:
+      - planner_selenium_hub
+    networks:
+      - splent_network
+
+volumes:
+  planner_db_data:
+  planner_pip_cache:
+
+networks:
+  splent_network:
+    external: true
+    name: ${SPLENT_NETWORK:-splent_network}
