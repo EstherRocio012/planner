@@ -10,6 +10,8 @@ Hierarchy (later layers win):
   3. Feature inject_config() calls
 """
 
+import os
+
 from splent_framework.configuration.default_config import (
     DevelopmentConfig as BaseDev,
     TestingConfig as BaseTest,
@@ -17,19 +19,27 @@ from splent_framework.configuration.default_config import (
 )
 
 
-class DevelopmentConfig(BaseDev):
-    # Add product-specific dev settings here.
-    # Example: EXPLAIN_TEMPLATE_LOADING = True
+class PlannerConfig:
+    SITE_NAME = "plannER"
+    AUTH_LANDING_ENDPOINT = "planner_tasks.tareas"
+
+    def __init__(self):
+        super().__init__()
+        self.BABEL_DEFAULT_LOCALE = os.getenv("BABEL_DEFAULT_LOCALE", "es").strip()
+        self.BABEL_SUPPORTED_LOCALES = [self.BABEL_DEFAULT_LOCALE]
+
+
+class DevelopmentConfig(PlannerConfig, BaseDev):
     pass
 
 
-class TestingConfig(BaseTest):
+class TestingConfig(PlannerConfig, BaseTest):
     # Add product-specific test settings here.
     # Example: PRESERVE_CONTEXT_ON_EXCEPTION = False
     pass
 
 
-class ProductionConfig(BaseProd):
+class ProductionConfig(PlannerConfig, BaseProd):
     # Add product-specific production settings here.
     # Example: SESSION_COOKIE_SECURE = True
     pass
