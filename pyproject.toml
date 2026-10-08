@@ -40,6 +40,7 @@ features = [
     "splent-io/splent_feature_auth_planner",
     "splent-io/splent_feature_signup_planner",
     "splent-io/splent_feature_profile_planner",
+    "splent-io/splent_feature_planner_recurrence",
 ]
 features_dev = []
 features_prod = []
