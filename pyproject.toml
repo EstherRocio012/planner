@@ -31,16 +31,16 @@ features = [
     "splent-io/splent_feature_session_filesystem@v1.1.1",
     "splent-io/splent_feature_settings@v0.4.0",
     "splent-io/splent_feature_theme@v0.12.1",
-    "splent-io/splent_feature_planner_calendars",
-    "splent-io/splent_feature_planner_tasks",
-    "splent-io/splent_feature_planner_calendarview",
-    "splent-io/splent_feature_planner_notes",
-    "splent-io/splent_feature_planner_sharing",
+    "splent-io/splent_feature_calendars",
+    "splent-io/splent_feature_tasks",
+    "splent-io/splent_feature_calendar_view",
+    "splent-io/splent_feature_quick_notes",
+    "splent-io/splent_feature_calendar_sharing",
     "splent-io/splent_feature_signup@v0.1.0",
     "splent-io/splent_feature_auth_planner",
     "splent-io/splent_feature_signup_planner",
     "splent-io/splent_feature_profile_planner",
-    "splent-io/splent_feature_planner_recurrence",
+    "splent-io/splent_feature_task_recurrence",
 ]
 features_dev = []
 features_prod = []
@@ -50,7 +50,7 @@ spl = "planner_spl"
 base_template = "base_template.html"
 hooks = [
     "layout.head.css",
-    "planner.nav",
+    "calendars.nav",
     "layout.sidebar.top",
     "layout.anonymous_sidebar",
     "layout.authenticated_sidebar",

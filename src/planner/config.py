@@ -21,7 +21,7 @@ from splent_framework.configuration.default_config import (
 
 class PlannerConfig:
     SITE_NAME = "plannER"
-    AUTH_LANDING_ENDPOINT = "planner_tasks.tareas"
+    AUTH_LANDING_ENDPOINT = "tasks.tareas"
 
     def __init__(self):
         super().__init__()

@@ -3,7 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}plannER{% endblock %}</title>
+  {# cada página pone su nombre en «title» y aquí se le añade la marca: «Tareas · plannER» #}
+  {% if false %}{% block title %}{% endblock %}{% endif %}{% set titulo_pagina = self.title()|trim %}
+  <title>{{ titulo_pagina ~ " · " if titulo_pagina }}plannER</title>
   <link rel="icon" href="{{ url_for('static', filename='img/girasol.png') }}?v=2">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,10 +19,10 @@
 </head>
 <body>
   <header class="topbar">
-    <a class="logo" href="{{ url_for('planner_tasks.tareas') if ruta_existe('planner_tasks.tareas') else '/' }}"><img src="{{ url_for('static', filename='img/girasol.png') }}?v=2" alt=""><span class="logo-texto">plann<span class="logo-acento">ER</span></span></a>
+    <a class="logo" href="{{ url_for('tasks.tareas') if ruta_existe('tasks.tareas') else '/' }}"><img src="{{ url_for('static', filename='img/girasol.png') }}?v=2" alt=""><span class="logo-texto">plann<span class="logo-acento">ER</span></span></a>
     {% if current_user is defined and current_user.is_authenticated %}
     <nav>
-      {% for hook in get_template_hooks("planner.nav") %}{{ hook() | safe }}{% endfor %}
+      {% for hook in get_template_hooks("calendars.nav") %}{{ hook() | safe }}{% endfor %}
     </nav>
     <div class="salir">
       {% set perfil = current_user.profile if current_user.profile is defined else None %}

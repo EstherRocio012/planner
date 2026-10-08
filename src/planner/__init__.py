@@ -9,7 +9,7 @@ def create_app(config_name=None):
 
     @app.before_request
     def inicio_en_tareas():
-        if request.path == "/" and "planner_tasks.tareas" in app.view_functions:
-            return redirect(url_for("planner_tasks.tareas"))
+        if request.path == "/" and "tasks.tareas" in app.view_functions:
+            return redirect(url_for("tasks.tareas"))
 
     return app
