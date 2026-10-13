@@ -14,6 +14,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/own.css') }}">
   {% endblock %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/pie.css') }}">
   {% for hook in get_template_hooks("layout.head.css") %}{{ hook() | safe }}{% endfor %}
   {% block head %}{% endblock %}
 </head>
@@ -41,6 +42,8 @@
     {% block breadcrumb %}{% endblock %}
     {% block content %}{% endblock %}
   </main>
+
+  <footer class="pie">Made with <a href="https://www.splent.io" target="_blank" rel="noopener">SPLENT</a></footer>
 
   {% block js_tema %}<script src="{{ url_for('static', filename='js/app.js') }}"></script>{% endblock %}
   {% for hook in get_template_hooks("layout.scripts") %}{{ hook() | safe }}{% endfor %}

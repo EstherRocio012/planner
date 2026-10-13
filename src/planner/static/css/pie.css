@@ -1,0 +1,5 @@
+/* Pie de todas las páginas: «Made with SPLENT». Va aparte de app.css/own.css porque las
+   páginas de las features de calendario quitan esos estilos (bloque estilos_tema). */
+.pie { text-align: center; padding: 1.5rem 1rem 1.2rem; font-size: .8rem; color: var(--suave, #6b6b70); }
+.pie a { color: inherit; font-weight: 600; text-decoration: none; }
+.pie a:hover { color: var(--primario, #780000); text-decoration: underline; }
