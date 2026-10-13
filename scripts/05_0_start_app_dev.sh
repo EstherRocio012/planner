@@ -21,10 +21,14 @@ pkill -f "watchmedo.*auto-restart" 2>/dev/null || true
 pkill -f "flask run" 2>/dev/null || true
 sleep 1
 
+# FLASK_DEBUG=0 en docker/.env apaga el depurador (obligatorio si la app es
+# accesible desde internet); por defecto está encendido, como en desarrollo.
+if [ "${FLASK_DEBUG:-1}" = "0" ]; then DEBUG_FLAG="--no-debug"; else DEBUG_FLAG="--debug"; fi
+
 watchmedo auto-restart \
     --directory=/workspace/planner/src/planner \
     --pattern=*.py \
     --recursive \
-    -- flask run --host=0.0.0.0 --port=5000 --debug >> /var/log/entrypoint.log 2>&1 &
+    -- flask run --host=0.0.0.0 --port=5000 $DEBUG_FLAG >> /var/log/entrypoint.log 2>&1 &
 
 echo ""

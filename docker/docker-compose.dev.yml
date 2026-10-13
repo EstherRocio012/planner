@@ -19,11 +19,14 @@ services:
       # the browser, so it must name a host the browser container can reach.
       SELENIUM_GRID_URL: http://planner_selenium_hub:4444
       SELENIUM_TARGET_URL: http://planner_web:5000
+    # HOST_BIND_ADDRESS (en docker/.env) decide en qué interfaz se publican los
+    # puertos: 0.0.0.0 por defecto; 127.0.0.1 en un servidor con proxy delante,
+    # para que la app y la base de datos no se alcancen desde fuera.
     ports:
-      - "5161:5000"
+      - "${HOST_BIND_ADDRESS:-0.0.0.0}:5161:5000"
       # Locust web interface, served from inside this container by
       # 'splent locust'.
-      - "8250:8089"
+      - "${HOST_BIND_ADDRESS:-0.0.0.0}:8250:8089"
     depends_on:
       planner_db:
         condition: service_healthy
@@ -38,7 +41,7 @@ services:
       - /workspace/planner/docker/.env
     command: --default-authentication-plugin=mysql_native_password
     ports:
-      - "33221:3306"
+      - "${HOST_BIND_ADDRESS:-0.0.0.0}:33221:3306"
     volumes:
       - planner_db_data:/var/lib/mysql
     healthcheck:
