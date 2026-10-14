@@ -1,5 +1,13 @@
-/* Pie de todas las páginas: «Made with SPLENT». Va aparte de app.css/own.css porque las
-   páginas de las features de calendario quitan esos estilos (bloque estilos_tema). */
+/* Enlace «source code» de la barra superior y pie de todas las páginas («Made with SPLENT»). */
+.topbar .salir { margin-left: auto; }
+.codigo-fuente { display: inline-flex; align-items: center; gap: .35rem; padding: .4rem .7rem; border-radius: 8px;
+  color: var(--suave, #6b6b70); font-size: .9rem; text-decoration: none; }
+.codigo-fuente:hover { color: var(--primario, #780000); text-decoration: none;
+  background: color-mix(in srgb, var(--primario, #780000) 12%, var(--tarjeta, #fff)); }
+/* separador fino entre el enlace al código y la sesión */
+.codigo-fuente:has(+ .usuario) { margin-right: .2rem; }
+.codigo-fuente + .usuario { padding-left: .8rem; border-left: 1px solid var(--borde, #e4e4e7); }
+
 .pie { text-align: center; padding: 1.5rem 1rem 1.2rem; font-size: .8rem; color: var(--suave, #6b6b70); }
 .pie a { color: inherit; font-weight: 600; text-decoration: none; }
 .pie a:hover { color: var(--primario, #780000); text-decoration: underline; }
