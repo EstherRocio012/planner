@@ -41,8 +41,12 @@ features = [
     "splent-io/splent_feature_signup_planner",
     "splent-io/splent_feature_profile_planner",
     "splent-io/splent_feature_task_recurrence",
+    "splent-io/splent_feature_mail@v1.4.3",
+    "splent-io/splent_feature_task_notifications",
 ]
-features_dev = []
+features_dev = [
+    "splent-io/splent_feature_mailhog@v1.0.8",
+]
 features_prod = []
 spl = "planner_spl"
 
